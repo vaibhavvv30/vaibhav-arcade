@@ -1,572 +1,408 @@
-
 <!DOCTYPE html>
 <html lang="en">
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-
-<title>Vaibhav Arcade | Free Online Games</title>
-
+<meta name="theme-color" content="#080d1b">
+<meta name="description" content="Play free browser games at Vaibhav Arcade: Snake, Space Shooter, Flappy, Tic-Tac-Toe, Memory, Reaction and Number Guess.">
+<title>Vaibhav Arcade — Free Browser Games</title>
 <style>
-* {
-  box-sizing: border-box;
-}
-
-body {
-  margin: 0;
-  font-family: Arial, sans-serif;
-  background: #0b1020;
-  color: #f5f7ff;
-}
-
-header {
-  padding: 20px 8%;
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  background: #111a30;
-  border-bottom: 1px solid #263450;
-}
-
-.logo {
-  color: #65f5c5;
-  font-size: 22px;
-  font-weight: bold;
-}
-
-nav a {
-  color: #d5ddf5;
-  text-decoration: none;
-  margin-left: 18px;
-}
-
-.hero {
-  padding: 65px 20px;
-  text-align: center;
-  background:
-    radial-gradient(circle at top, #233d70, #0b1020 70%);
-}
-
-.hero h1 {
-  font-size: 42px;
-  margin: 0 0 15px;
-}
-
-.hero h1 span {
-  color: #65f5c5;
-}
-
-.hero p {
-  color: #b8c4df;
-  font-size: 17px;
-}
-
-.badge {
-  display: inline-block;
-  padding: 8px 14px;
-  background: #1d3049;
-  color: #65f5c5;
-  border-radius: 30px;
-  font-size: 13px;
-  margin-bottom: 15px;
-}
-
-.container {
-  max-width: 1000px;
-  margin: auto;
-  padding: 30px 20px;
-}
-
-.section-title {
-  font-size: 25px;
-  margin-bottom: 20px;
-}
-
-.games {
-  display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
-  gap: 20px;
-}
-
-.card {
-  background: #141e35;
-  border: 1px solid #263653;
-  border-radius: 16px;
-  padding: 22px;
-}
-
-.game-icon {
-  font-size: 42px;
-}
-
-.card h3 {
-  margin-bottom: 8px;
-}
-
-.card p {
-  color: #aab8d4;
-  line-height: 1.5;
-}
-
-button {
-  background: #65f5c5;
-  color: #071321;
-  border: 0;
-  border-radius: 9px;
-  padding: 12px 18px;
-  font-size: 15px;
-  font-weight: bold;
-  cursor: pointer;
-  margin: 5px;
-}
-
-button:hover {
-  filter: brightness(1.1);
-}
-
-.game-area {
-  display: none;
-  text-align: center;
-  margin-top: 30px;
-  background: #141e35;
-  border: 1px solid #263653;
-  border-radius: 16px;
-  padding: 20px;
-}
-
-canvas {
-  display: block;
-  margin: 15px auto;
-  background: #080e1b;
-  border: 2px solid #334765;
-  border-radius: 8px;
-  max-width: 100%;
-}
-
-#reactionButton {
-  background: #e9a23b;
-  min-width: 180px;
-}
-
-#reactionButton.green {
-  background: #65f5c5;
-}
-
-#message {
-  color: #65f5c5;
-  font-weight: bold;
-}
-
-.controls {
-  margin-top: 10px;
-}
-
-footer {
-  text-align: center;
-  padding: 30px;
-  color: #8593b0;
-  border-top: 1px solid #263450;
-}
-
-@media (max-width: 600px) {
-  .hero h1 {
-    font-size: 32px;
-  }
-
-  header {
-    padding: 16px;
-  }
-
-  nav a {
-    margin-left: 8px;
-    font-size: 13px;
-  }
-}
+:root{--bg:#080d1b;--panel:#111a2e;--panel2:#17233b;--line:#273650;--text:#f3f6ff;--muted:#a5b2cc;--mint:#68f5c5;--blue:#78a8ff;--pink:#ff729d;--gold:#ffd166}
+*{box-sizing:border-box}
+html{scroll-behavior:smooth}
+body{margin:0;background:var(--bg);color:var(--text);font-family:Inter,ui-sans-serif,system-ui,-apple-system,Segoe UI,Arial,sans-serif}
+button,input,select{font:inherit}
+button{cursor:pointer}
+a{color:inherit;text-decoration:none}
+.topbar{position:sticky;top:0;z-index:20;display:flex;align-items:center;justify-content:space-between;gap:16px;padding:15px clamp(16px,5vw,64px);background:rgba(8,13,27,.92);backdrop-filter:blur(12px);border-bottom:1px solid rgba(120,168,255,.16)}
+.brand{display:flex;align-items:center;gap:10px;font-weight:900;letter-spacing:-.5px;font-size:1.15rem}
+.brand-icon{display:grid;place-items:center;width:38px;height:38px;border-radius:12px;background:linear-gradient(135deg,var(--mint),var(--blue));color:#07121d;font-size:1.25rem;box-shadow:0 0 25px #68f5c533}
+.nav{display:flex;align-items:center;gap:18px;color:var(--muted);font-size:.92rem}
+.nav a:hover{color:var(--mint)}
+.sound-toggle{border:1px solid var(--line);border-radius:999px;padding:9px 13px;background:var(--panel);color:var(--text)}
+.hero{position:relative;overflow:hidden;text-align:center;padding:72px 18px 58px;background:radial-gradient(ellipse at 50% 0%,#233d70 0%,#111a32 34%,var(--bg) 72%)}
+.hero:before,.hero:after{content:"";position:absolute;border-radius:50%;filter:blur(1px);opacity:.2;pointer-events:none}
+.hero:before{width:240px;height:240px;border:1px solid var(--mint);left:-80px;top:25px}
+.hero:after{width:330px;height:330px;border:1px solid var(--blue);right:-140px;top:0}
+.hero-inner{position:relative;z-index:1;max-width:850px;margin:auto}
+.eyebrow{display:inline-flex;align-items:center;gap:8px;padding:7px 12px;border-radius:999px;border:1px solid #68f5c544;background:#68f5c511;color:var(--mint);font-size:.75rem;font-weight:800;letter-spacing:1.5px}
+.hero h1{font-size:clamp(2.5rem,7vw,5.3rem);line-height:.98;letter-spacing:-3px;margin:22px 0 16px}
+.hero h1 span{background:linear-gradient(90deg,var(--mint),var(--blue));background-clip:text;-webkit-background-clip:text;color:transparent}
+.hero p{max-width:600px;margin:0 auto;color:var(--muted);font-size:clamp(1rem,2vw,1.15rem);line-height:1.7}
+.hero-actions{display:flex;justify-content:center;flex-wrap:wrap;gap:12px;margin-top:26px}
+.btn{border:0;border-radius:12px;padding:12px 17px;font-weight:800;transition:transform .15s,filter .15s}
+.btn:hover{transform:translateY(-2px);filter:brightness(1.08)}
+.btn-primary{background:var(--mint);color:#07121d}
+.btn-secondary{background:#182640;border:1px solid var(--line);color:var(--text)}
+.stats{display:flex;justify-content:center;flex-wrap:wrap;gap:12px;margin-top:30px}
+.stat{padding:10px 15px;border:1px solid #ffffff14;background:#ffffff08;border-radius:12px;color:var(--muted);font-size:.85rem}
+.stat strong{color:var(--text);margin-right:5px}
+.container{max-width:1180px;margin:0 auto;padding:36px 20px}
+.section-head{display:flex;align-items:end;justify-content:space-between;gap:18px;flex-wrap:wrap;margin-bottom:20px}
+.section-head h2{font-size:clamp(1.5rem,3vw,2rem);letter-spacing:-.8px;margin:0}
+.section-head p{color:var(--muted);margin:7px 0 0}
+.toolbar{display:flex;gap:10px;flex-wrap:wrap;margin:20px 0 24px}
+.search-wrap{position:relative;flex:1;min-width:220px}
+.search-wrap span{position:absolute;left:14px;top:50%;transform:translateY(-50%);color:var(--muted)}
+.search-wrap input{width:100%;padding:12px 14px 12px 40px;border:1px solid var(--line);border-radius:12px;background:var(--panel);color:var(--text);outline:none}
+.search-wrap input:focus,select:focus{border-color:var(--mint)}
+select{padding:12px 14px;border:1px solid var(--line);border-radius:12px;background:var(--panel);color:var(--text)}
+.game-grid{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:17px}
+.game-card{position:relative;overflow:hidden;display:flex;flex-direction:column;min-height:245px;padding:20px;border:1px solid var(--line);border-radius:18px;background:linear-gradient(145deg,#17233b,#10182a);transition:transform .2s,border-color .2s,box-shadow .2s}
+.game-card:hover{transform:translateY(-5px);border-color:#68f5c577;box-shadow:0 16px 35px #0003}
+.card-top{display:flex;align-items:center;justify-content:space-between}
+.game-icon{display:grid;place-items:center;width:52px;height:52px;border-radius:15px;background:#ffffff0b;font-size:1.8rem}
+.category{font-size:.72rem;text-transform:uppercase;letter-spacing:1px;color:var(--mint);font-weight:800}
+.game-card h3{margin:18px 0 7px;font-size:1.18rem}
+.game-card p{color:var(--muted);font-size:.91rem;line-height:1.55;margin:0 0 20px}
+.card-bottom{display:flex;align-items:center;justify-content:space-between;gap:10px;margin-top:auto}
+.high-score{font-size:.8rem;color:var(--gold)}
+.play-btn{border:0;border-radius:10px;background:#68f5c51a;color:var(--mint);padding:10px 13px;font-weight:800}
+.play-btn:hover{background:var(--mint);color:#07121d}
+.no-results{display:none;color:var(--muted);text-align:center;padding:35px;border:1px dashed var(--line);border-radius:15px}
+.game-stage{display:none;max-width:900px;margin:0 auto 30px;padding:0 20px}
+.stage-panel{background:var(--panel);border:1px solid var(--line);border-radius:20px;overflow:hidden;box-shadow:0 20px 60px #0003}
+.stage-head{display:flex;align-items:center;justify-content:space-between;gap:12px;flex-wrap:wrap;padding:17px 20px;border-bottom:1px solid var(--line)}
+.stage-head h2{margin:0;font-size:1.2rem}
+.stage-body{padding:22px;text-align:center}
+.stage-body p{color:var(--muted)}
+.game-canvas{display:block;width:min(100%,420px);height:auto;margin:15px auto;background:#070d19;border:1px solid #2a3a55;border-radius:12px;touch-action:manipulation}
+.game-message{min-height:24px;color:var(--mint)!important;font-weight:800}
+.game-controls{display:flex;justify-content:center;align-items:center;gap:9px;flex-wrap:wrap;margin-top:12px}
+.game-controls button,.ttt-cell,.memory-card{border:1px solid var(--line);background:var(--panel2);color:var(--text);border-radius:10px;padding:11px 15px}
+.game-controls button:hover{border-color:var(--mint)}
+.reaction-button{min-width:200px;min-height:70px;background:var(--gold)!important;color:#211600!important;font-size:1.15rem}
+.reaction-button.ready{background:var(--mint)!important}
+.guess-input{width:100px;padding:11px;border:1px solid var(--line);border-radius:10px;background:#080d1b;color:var(--text)}
+.ttt-board{display:grid;grid-template-columns:repeat(3,85px);gap:8px;justify-content:center;margin:20px auto}
+.ttt-cell{height:85px;font-size:2rem;font-weight:900;cursor:pointer}
+.ttt-cell:disabled{cursor:default}
+.memory-board{display:grid;grid-template-columns:repeat(4,minmax(55px,75px));gap:9px;justify-content:center;margin:20px auto}
+.memory-card{height:75px;font-size:1.6rem;font-weight:900;cursor:pointer;transition:transform .15s}
+.memory-card:hover{transform:scale(1.04)}
+.memory-card.flipped,.memory-card.matched{background:#173b3b;border-color:var(--mint)}
+.memory-card.matched{color:var(--mint)}
+.mobile-controls{display:none;gap:8px;justify-content:center;flex-wrap:wrap;margin-top:10px}
+.mobile-controls button{min-width:48px;min-height:45px}
+.about{display:grid;grid-template-columns:1.4fr 1fr;gap:18px}
+.about-card{padding:23px;border:1px solid var(--line);border-radius:17px;background:var(--panel)}
+.about-card h3{margin-top:0}
+.about-card p,.about-card li{color:var(--muted);line-height:1.65}
+footer{border-top:1px solid var(--line);padding:25px 20px;text-align:center;color:#8391ad;font-size:.85rem}
+.toast{position:fixed;bottom:20px;left:50%;transform:translate(-50%,20px);opacity:0;pointer-events:none;background:#17233b;border:1px solid var(--mint);color:var(--mint);padding:12px 18px;border-radius:12px;z-index:50;transition:.25s}
+.toast.show{opacity:1;transform:translate(-50%,0)}
+@media(max-width:850px){.game-grid{grid-template-columns:repeat(2,minmax(0,1fr))}.about{grid-template-columns:1fr}}
+@media(max-width:560px){.topbar{padding:12px 15px}.nav{gap:10px}.nav a{display:none}.hero{padding:55px 16px 45px}.hero h1{letter-spacing:-1.8px}.container{padding:28px 15px}.game-grid{grid-template-columns:1fr}.game-card{min-height:215px}.stage-body{padding:15px}.ttt-board{grid-template-columns:repeat(3,75px)}.ttt-cell{height:75px}.memory-board{grid-template-columns:repeat(4,minmax(48px,65px));gap:7px}.memory-card{height:65px}.mobile-controls{display:flex}}
+@media(prefers-reduced-motion:reduce){*{scroll-behavior:auto;transition:none!important;animation:none!important}}
 </style>
 </head>
-
 <body>
-
-<header>
-  <div class="logo">🎮 Vaibhav Arcade</div>
-
-  <nav>
-    <a href="#games">Games</a>
-    <a href="#about">About</a>
-  </nav>
+<header class="topbar">
+  <a class="brand" href="#"><span class="brand-icon">🎮</span> Vaibhav Arcade</a>
+  <nav class="nav"><a href="#games">Games</a><a href="#about">About</a><button class="sound-toggle" id="soundToggle" onclick="toggleSound()">🔊 Sound: On</button></nav>
 </header>
 
 <section class="hero">
-  <div class="badge">FREE BROWSER GAMES</div>
-
-  <h1>Play. Have fun.<br>
-    <span>Repeat.</span>
-  </h1>
-
-  <p>Welcome to your little corner of the gaming world.</p>
-
-  <a href="#games">
-    <button>Explore Games ↓</button>
-  </a>
+  <div class="hero-inner">
+    <div class="eyebrow">✦ FREE BROWSER GAMES</div>
+    <h1>Play. Have fun.<br><span>Repeat.</span></h1>
+    <p>Your mini arcade is ready. Challenge your reflexes, beat your best scores, and enjoy quick games on mobile or desktop.</p>
+    <div class="hero-actions"><a href="#games"><button class="btn btn-primary">Explore games ↓</button></a><button class="btn btn-secondary" onclick="showRandomGame()">🎲 Pick a game</button></div>
+    <div class="stats"><div class="stat"><strong id="gameCount">7</strong> games</div><div class="stat"><strong id="playedCount">0</strong> plays on this device</div><div class="stat"><strong>Free</strong> to play</div></div>
+  </div>
 </section>
 
-<main class="container" id="games">
-
-  <h2 class="section-title">🎯 Choose Your Game</h2>
-
-  <div class="games">
-
-    <div class="card">
-      <div class="game-icon">🐍</div>
-      <h3>Snake Game</h3>
-      <p>Eat the food, grow your snake and beat your high score.</p>
-      <button onclick="openSnake()">Play Snake</button>
-    </div>
-
-    <div class="card">
-      <div class="game-icon">⚡</div>
-      <h3>Reaction Test</h3>
-      <p>Test your reaction speed. How fast can you click?</p>
-      <button onclick="openReaction()">Play Reaction</button>
-    </div>
-
-    <div class="card">
-      <div class="game-icon">🔢</div>
-      <h3>Number Guess</h3>
-      <p>Guess the secret number between 1 and 20.</p>
-      <button onclick="openGuess()">Play Guess</button>
-    </div>
-
+<main>
+<section class="container" id="games">
+  <div class="section-head"><div><h2>Choose your game</h2><p>Search, filter, and jump straight into the fun.</p></div></div>
+  <div class="toolbar">
+    <div class="search-wrap"><span>⌕</span><input id="gameSearch" type="search" placeholder="Search games..." aria-label="Search games" oninput="filterGames()"></div>
+    <select id="categoryFilter" aria-label="Filter by category" onchange="filterGames()"><option value="all">All categories</option><option value="arcade">Arcade</option><option value="reflex">Reflex</option><option value="puzzle">Puzzle</option></select>
   </div>
+  <div class="game-grid" id="gameGrid">
+    <article class="game-card" data-name="snake classic snake eat food" data-category="arcade"><div class="card-top"><div class="game-icon">🐍</div><span class="category">Arcade</span></div><h3>Snake</h3><p>Eat the food, grow longer, and avoid crashing into yourself.</p><div class="card-bottom"><span class="high-score">Best: <b id="best-snake">0</b></span><button class="play-btn" onclick="openGame('snake')">Play →</button></div></article>
+    <article class="game-card" data-name="space shooter spaceship shoot aliens" data-category="arcade"><div class="card-top"><div class="game-icon">🚀</div><span class="category">Arcade</span></div><h3>Space Shooter</h3><p>Pilot your ship, shoot the incoming targets, and survive.</p><div class="card-bottom"><span class="high-score">Best: <b id="best-space">0</b></span><button class="play-btn" onclick="openGame('space')">Play →</button></div></article>
+    <article class="game-card" data-name="flappy flyer bird flying obstacles" data-category="arcade"><div class="card-top"><div class="game-icon">🐤</div><span class="category">Arcade</span></div><h3>Flappy Flyer</h3><p>Tap or press Space to flap through the gaps.</p><div class="card-bottom"><span class="high-score">Best: <b id="best-flappy">0</b></span><button class="play-btn" onclick="openGame('flappy')">Play →</button></div></article>
+    <article class="game-card" data-name="reaction test speed reflex click" data-category="reflex"><div class="card-top"><div class="game-icon">⚡</div><span class="category">Reflex</span></div><h3>Reaction Test</h3><p>Wait for green and click as quickly as you can.</p><div class="card-bottom"><span class="high-score">Best: <b id="best-reaction">—</b></span><button class="play-btn" onclick="openGame('reaction')">Play →</button></div></article>
+    <article class="game-card" data-name="number guess guessing game" data-category="puzzle"><div class="card-top"><div class="game-icon">🔢</div><span class="category">Puzzle</span></div><h3>Number Guess</h3><p>Can you find the secret number in as few tries as possible?</p><div class="card-bottom"><span class="high-score">Best: <b id="best-guess">—</b></span><button class="play-btn" onclick="openGame('guess')">Play →</button></div></article>
+    <article class="game-card" data-name="tic tac toe noughts crosses" data-category="puzzle"><div class="card-top"><div class="game-icon">⭕</div><span class="category">Puzzle</span></div><h3>Tic-Tac-Toe</h3><p>Play X against the computer. Get three in a row.</p><div class="card-bottom"><span class="high-score">Best: <b id="best-ttt">0</b></span><button class="play-btn" onclick="openGame('ttt')">Play →</button></div></article>
+    <article class="game-card" data-name="memory card match pairs" data-category="puzzle"><div class="card-top"><div class="game-icon">🧠</div><span class="category">Puzzle</span></div><h3>Memory Match</h3><p>Flip cards, remember the symbols, and match all pairs.</p><div class="card-bottom"><span class="high-score">Best: <b id="best-memory">—</b></span><button class="play-btn" onclick="openGame('memory')">Play →</button></div></article>
+  </div>
+  <div class="no-results" id="noResults">No games found. Try another search or category.</div>
+</section>
 
-  <!-- SNAKE GAME -->
-  <section class="game-area" id="snakeArea">
+<section class="game-stage" id="gameStage">
+<div class="stage-panel">
+  <div class="stage-head"><h2 id="stageTitle">Game</h2><button class="btn btn-secondary" onclick="closeGame()">✕ Close game</button></div>
+  <div class="stage-body" id="stageBody">
+    <div id="snakeGame" class="game-screen" hidden><p>Use arrow keys or the on-screen buttons. Eat the dots!</p><p>Score: <b id="snakeScore">0</b></p><canvas id="snakeCanvas" class="game-canvas" width="360" height="360" aria-label="Snake game board"></canvas><p class="game-message" id="snakeMessage">Press Start to play.</p><div class="game-controls"><button onclick="startSnake()">▶ Start / Restart</button></div><div class="mobile-controls"><button onclick="snakeTurn('UP')">⬆</button><button onclick="snakeTurn('LEFT')">⬅</button><button onclick="snakeTurn('DOWN')">⬇</button><button onclick="snakeTurn('RIGHT')">➡</button></div></div>
+    <div id="spaceGame" class="game-screen" hidden><p>Move with ← → or A/D. Hold Space or tap Fire.</p><p>Score: <b id="spaceScore">0</b> · Lives: <b id="spaceLives">3</b></p><canvas id="spaceCanvas" class="game-canvas" width="360" height="420" aria-label="Space shooter game board"></canvas><p class="game-message" id="spaceMessage">Press Start to launch.</p><div class="game-controls"><button onclick="startSpace()">▶ Start / Restart</button><button onclick="fireSpace()">🔥 Fire</button></div><div class="mobile-controls"><button onpointerdown="spaceLeft=true" onpointerup="spaceLeft=false" onpointerleave="spaceLeft=false">⬅</button><button onpointerdown="spaceRight=true" onpointerup="spaceRight=false" onpointerleave="spaceRight=false">➡</button><button onclick="fireSpace()">🔥</button></div></div>
+    <div id="flappyGame" class="game-screen" hidden><p>Click, tap, or press Space to flap.</p><p>Score: <b id="flappyScore">0</b></p><canvas id="flappyCanvas" class="game-canvas" width="360" height="420" aria-label="Flappy game board"></canvas><p class="game-message" id="flappyMessage">Press Start to play.</p><div class="game-controls"><button onclick="startFlappy()">▶ Start / Restart</button><button onclick="flap()">⬆ Flap</button></div></div>
+    <div id="reactionGame" class="game-screen" hidden><p>Click Start, wait for green, then click as fast as you can. Don't click early!</p><button class="reaction-button" id="reactionButton" onclick="reactionClick()">Start</button><p class="game-message" id="reactionMessage">Ready?</p><div class="game-controls"><button onclick="resetReaction()">↻ Reset</button></div></div>
+    <div id="guessGame" class="game-screen" hidden><p>Guess a number between 1 and 100.</p><input class="guess-input" id="guessInput" type="number" min="1" max="100" aria-label="Your guess"><button class="btn btn-primary" onclick="checkGuess()">Guess</button><p class="game-message" id="guessMessage">Find the secret number!</p><p>Attempts: <b id="guessAttempts">0</b></p><div class="game-controls"><button onclick="newGuess()">New Game</button></div></div>
+    <div id="tttGame" class="game-screen" hidden><p>You are X. The computer is O.</p><div class="ttt-board" id="tttBoard"></div><p class="game-message" id="tttMessage">Your turn!</p><div class="game-controls"><button onclick="newTtt()">↻ New Game</button></div></div>
+    <div id="memoryGame" class="game-screen" hidden><p>Flip two cards to find matching pairs.</p><p>Moves: <b id="memoryMoves">0</b> · Matches: <b id="memoryMatches">0</b>/8</p><div class="memory-board" id="memoryBoard"></div><p class="game-message" id="memoryMessage">Find all 8 pairs!</p><div class="game-controls"><button onclick="newMemory()">↻ New Game</button></div></div>
+  </div>
+</div>
+</section>
 
-    <h2>🐍 Snake Game</h2>
-    <p>Use arrow keys or buttons to move.</p>
-
-    <p>Score: <span id="score">0</span></p>
-
-    <canvas id="snakeCanvas" width="300" height="300"></canvas>
-
-    <button onclick="startSnake()">Start / Restart</button>
-
-    <div class="controls">
-      <div>
-        <button onclick="changeDirection('UP')">⬆️</button>
-      </div>
-      <div>
-        <button onclick="changeDirection('LEFT')">⬅️</button>
-        <button onclick="changeDirection('DOWN')">⬇️</button>
-        <button onclick="changeDirection('RIGHT')">➡️</button>
-      </div>
-    </div>
-
-    <p id="snakeMessage">Press Start to play.</p>
-
-  </section>
-
-  <!-- REACTION GAME -->
-  <section class="game-area" id="reactionArea">
-
-    <h2>⚡ Reaction Test</h2>
-
-    <p>Click the button and wait for it to turn green.</p>
-
-    <button id="reactionButton" onclick="reactionClick()">
-      Start
-    </button>
-
-    <p id="reactionMessage">Ready?</p>
-
-  </section>
-
-  <!-- NUMBER GUESS -->
-  <section class="game-area" id="guessArea">
-
-    <h2>🔢 Number Guess</h2>
-
-    <p>Guess a number from 1 to 20.</p>
-
-    <input id="guessInput" type="number"
-      min="1" max="20"
-      style="padding:10px;width:100px">
-
-    <button onclick="checkGuess()">Guess</button>
-
-    <p id="guessMessage">Let's play!</p>
-
-    <button onclick="newNumber()">New Game</button>
-
-  </section>
-
+<section class="container about" id="about">
+  <div class="about-card"><h3>About Vaibhav Arcade</h3><p>A small independent arcade project built with HTML, CSS and JavaScript. All games run in your browser—no downloads or sign-up needed.</p><p>High scores are saved locally on this device.</p></div>
+  <div class="about-card"><h3>How to play</h3><ul><li>Choose a game and press Play.</li><li>Use keyboard, mouse or touch controls.</li><li>Try to beat your best score.</li><li>Turn sound on or off whenever you like.</li></ul></div>
+</section>
 </main>
 
-<section class="container" id="about">
-  <div class="card">
-    <h2>About Vaibhav Arcade</h2>
-    <p>
-      Vaibhav Arcade is a small gaming website made for
-      people who enjoy quick and fun browser games.
-      More games coming soon!
-    </p>
-  </div>
-</section>
-
-<footer>
-  Made with ❤️ by Vaibhav | Vaibhav Arcade
-</footer>
+<footer>Made with ♥ by Vaibhav · Vaibhav Arcade · Free to play</footer>
+<div class="toast" id="toast" role="status"></div>
 
 <script>
-
-// Show selected game
-function showGame(id) {
-  document.querySelectorAll(".game-area").forEach(area => {
-    area.style.display = "none";
+/* ---------- Shared helpers: scores, sound, navigation ---------- */
+const SCORE_KEY="vaibhavArcadeScores_v2";
+const PLAY_KEY="vaibhavArcadePlays_v2";
+let scores=JSON.parse(localStorage.getItem(SCORE_KEY)||"{}");
+let soundOn=true, audioCtx=null, activeGame=null;
+function getScore(key){return scores[key]??null}
+function saveBest(key,value,lowerIsBetter=false){
+  const old=scores[key];
+  const better=old===undefined||(lowerIsBetter?value<old:value>old);
+  if(better){scores[key]=value;localStorage.setItem(SCORE_KEY,JSON.stringify(scores));updateScores();toast("New personal best! 🏆");}
+}
+function updateScores(){
+  ["snake","space","flappy","reaction","guess","ttt","memory"].forEach(k=>{
+    const el=document.getElementById("best-"+k);
+    if(el)el.textContent=scores[k]===undefined?"—":(k==="reaction"?scores[k]+" ms":scores[k]);
   });
-
-  document.getElementById(id).style.display = "block";
-
-  document.getElementById(id).scrollIntoView({
-    behavior: "smooth"
+}
+function countPlay(){
+  let n=Number(localStorage.getItem(PLAY_KEY)||0)+1;
+  localStorage.setItem(PLAY_KEY,String(n));
+  document.getElementById("playedCount").textContent=n;
+}
+function beep(freq=440,duration=.08,type="sine"){
+  if(!soundOn)return;
+  try{
+    audioCtx=audioCtx||new(window.AudioContext||window.webkitAudioContext)();
+    const osc=audioCtx.createOscillator(),gain=audioCtx.createGain();
+    osc.type=type;osc.frequency.value=freq;gain.gain.value=.045;
+    osc.connect(gain);gain.connect(audioCtx.destination);
+    osc.start();gain.gain.exponentialRampToValueAtTime(.001,audioCtx.currentTime+duration);
+    osc.stop(audioCtx.currentTime+duration);
+  }catch(e){}
+}
+function toggleSound(){
+  soundOn=!soundOn;
+  document.getElementById("soundToggle").textContent=soundOn?"🔊 Sound: On":"🔇 Sound: Off";
+  if(soundOn)beep(650,.08);
+}
+function toast(text){
+  const el=document.getElementById("toast");el.textContent=text;el.classList.add("show");
+  clearTimeout(toast.timer);toast.timer=setTimeout(()=>el.classList.remove("show"),1800);
+}
+function filterGames(){
+  const q=document.getElementById("gameSearch").value.toLowerCase().trim();
+  const cat=document.getElementById("categoryFilter").value;
+  let shown=0;
+  document.querySelectorAll(".game-card").forEach(card=>{
+    const matches=card.dataset.name.includes(q)&&(cat==="all"||card.dataset.category===cat);
+    card.style.display=matches?"flex":"none";if(matches)shown++;
   });
+  document.getElementById("noResults").style.display=shown?"none":"block";
+}
+function showRandomGame(){
+  const cards=[...document.querySelectorAll(".game-card")];
+  const visible=cards.filter(c=>c.style.display!=="none");
+  if(!visible.length){toast("No games match the filter.");return;}
+  const btn=visible[Math.floor(Math.random()*visible.length)].querySelector(".play-btn");
+  btn.click();
+}
+function openGame(game){
+  stopAllGames();
+  activeGame=game;
+  document.querySelectorAll(".game-screen").forEach(el=>el.hidden=true);
+  document.getElementById(game+"Game").hidden=false;
+  document.getElementById("gameStage").style.display="block";
+  const names={snake:"🐍 Snake",space:"🚀 Space Shooter",flappy:"🐤 Flappy Flyer",reaction:"⚡ Reaction Test",guess:"🔢 Number Guess",ttt:"⭕ Tic-Tac-Toe",memory:"🧠 Memory Match"};
+  document.getElementById("stageTitle").textContent=names[game];
+  document.getElementById("gameStage").scrollIntoView({behavior:"smooth",block:"start"});
+  countPlay();
+  if(game==="snake")startSnake();
+  if(game==="space")startSpace();
+  if(game==="flappy")startFlappy();
+  if(game==="reaction")resetReaction();
+  if(game==="guess")newGuess();
+  if(game==="ttt")newTtt();
+  if(game==="memory")newMemory();
+}
+function closeGame(){stopAllGames();document.getElementById("gameStage").style.display="none";activeGame=null}
+function stopAllGames(){
+  clearInterval(snakeTimer);clearInterval(spaceTimer);cancelAnimationFrame(flappyRAF);
+  clearTimeout(reactionTimer);snakeRunning=false;spaceRunning=false;flappyRunning=false;
+}
+updateScores();
+document.getElementById("playedCount").textContent=localStorage.getItem(PLAY_KEY)||"0";
+
+/* ---------- Snake ---------- */
+const snakeCanvas=document.getElementById("snakeCanvas"), snakeCtx=snakeCanvas.getContext("2d");
+const cell=18, grid=20;
+let snake=[],snakeFood={},snakeDir="RIGHT",snakeNext="RIGHT",snakeTimer=null,snakeScore=0,snakeRunning=false;
+function startSnake(){
+  clearInterval(snakeTimer);snake=[{x:7,y:10},{x:6,y:10},{x:5,y:10}];snakeDir=snakeNext="RIGHT";snakeScore=0;snakeRunning=true;placeSnakeFood();
+  document.getElementById("snakeScore").textContent=0;document.getElementById("snakeMessage").textContent="Good luck!";
+  drawSnake();snakeTimer=setInterval(moveSnake,115);
+}
+function placeSnakeFood(){snakeFood={x:Math.floor(Math.random()*grid),y:Math.floor(Math.random()*grid)};if(snake.some(p=>p.x===snakeFood.x&&p.y===snakeFood.y))placeSnakeFood()}
+function snakeTurn(d){const opp={UP:"DOWN",DOWN:"UP",LEFT:"RIGHT",RIGHT:"LEFT"};if(d!==opp[snakeDir])snakeNext=d}
+document.addEventListener("keydown",e=>{const m={ArrowUp:"UP",ArrowDown:"DOWN",ArrowLeft:"LEFT",ArrowRight:"RIGHT",w:"UP",s:"DOWN",a:"LEFT",d:"RIGHT"};if(m[e.key]&&activeGame==="snake"){e.preventDefault();snakeTurn(m[e.key])}});
+function moveSnake(){
+  snakeDir=snakeNext;let h={...snake[0]};if(snakeDir==="UP")h.y--;if(snakeDir==="DOWN")h.y++;if(snakeDir==="LEFT")h.x--;if(snakeDir==="RIGHT")h.x++;
+  const eat=h.x===snakeFood.x&&h.y===snakeFood.y,body=eat?snake:snake.slice(0,-1);
+  if(h.x<0||h.x>=grid||h.y<0||h.y>=grid||body.some(p=>p.x===h.x&&p.y===h.y)){clearInterval(snakeTimer);snakeRunning=false;document.getElementById("snakeMessage").textContent="Game over! Score: "+snakeScore+" — press Start to retry.";beep(130,.2,"sawtooth");saveBest("snake",snakeScore);return}
+  snake.unshift(h);if(eat){snakeScore+=10;document.getElementById("snakeScore").textContent=snakeScore;placeSnakeFood();beep(700,.06)}else snake.pop();drawSnake();
+}
+function drawSnake(){
+  snakeCtx.fillStyle="#070d19";snakeCtx.fillRect(0,0,360,360);
+  snakeCtx.fillStyle="#ff729d";snakeCtx.beginPath();snakeCtx.arc(snakeFood.x*cell+cell/2,snakeFood.y*cell+cell/2,cell*.38,0,Math.PI*2);snakeCtx.fill();
+  snake.forEach((p,i)=>{snakeCtx.fillStyle=i?"#42cda5":"#a4ffe1";snakeCtx.fillRect(p.x*cell+1,p.y*cell+1,cell-2,cell-2)});
 }
 
-// SNAKE GAME
-const canvas = document.getElementById("snakeCanvas");
-const ctx = canvas.getContext("2d");
-
-const size = 15;
-
-let snake;
-let food;
-let direction;
-let nextDirection;
-let score;
-let snakeTimer;
-let snakeRunning = false;
-
-function openSnake() {
-  showGame("snakeArea");
-  startSnake();
+/* ---------- Space Shooter ---------- */
+const spaceCanvas=document.getElementById("spaceCanvas"),spaceCtx=spaceCanvas.getContext("2d");
+let ship={x:180,y:375},bullets=[],enemies=[],spaceScore=0,spaceLives=3,spaceRunning=false,spaceTimer=null,spaceLeft=false,spaceRight=false,spaceKeys={};
+function startSpace(){
+  clearInterval(spaceTimer);ship={x:180,y:375};bullets=[];enemies=[];spaceScore=0;spaceLives=3;spaceRunning=true;spaceLeft=spaceRight=false;
+  document.getElementById("spaceScore").textContent=0;document.getElementById("spaceLives").textContent=3;document.getElementById("spaceMessage").textContent="Shoot the targets!";
+  for(let i=0;i<5;i++)spawnEnemy();drawSpace();spaceTimer=setInterval(updateSpace,40);
+}
+function spawnEnemy(){enemies.push({x:20+Math.random()*320,y:-20-Math.random()*130,r:11+Math.random()*5,s:1+Math.random()*1.2})}
+function fireSpace(){if(activeGame!=="space"||!spaceRunning)return;bullets.push({x:ship.x,y:ship.y-15});beep(580,.035,"square")}
+document.addEventListener("keydown",e=>{if(activeGame!=="space")return;if(["ArrowLeft","ArrowRight"," ","a","d","A","D"].includes(e.key))e.preventDefault();spaceKeys[e.key.toLowerCase()]=true;if(e.key===" ")fireSpace()});
+document.addEventListener("keyup",e=>{spaceKeys[e.key.toLowerCase()]=false});
+function updateSpace(){
+  if(spaceLeft||spaceKeys.arrowleft||spaceKeys.a)ship.x-=5;if(spaceRight||spaceKeys.arrowright||spaceKeys.d)ship.x+=5;ship.x=Math.max(14,Math.min(346,ship.x));
+  bullets.forEach(b=>b.y-=7);bullets=bullets.filter(b=>b.y>-10);
+  enemies.forEach(en=>en.y+=en.s);
+  for(let i=enemies.length-1;i>=0;i--){
+    const en=enemies[i];let hit=bullets.findIndex(b=>Math.hypot(b.x-en.x,b.y-en.y)<en.r+5);
+    if(hit>=0){bullets.splice(hit,1);enemies.splice(i,1);spaceScore+=10;document.getElementById("spaceScore").textContent=spaceScore;beep(820,.04);spawnEnemy();continue}
+    if(en.y>410){enemies.splice(i,1);spaceLives--;document.getElementById("spaceLives").textContent=spaceLives;spawnEnemy();beep(160,.1)}
+  }
+  drawSpace();
+  if(spaceLives<=0){clearInterval(spaceTimer);spaceRunning=false;document.getElementById("spaceMessage").textContent="Game over! Score: "+spaceScore;saveBest("space",spaceScore);beep(110,.2,"sawtooth")}
+}
+function drawSpace(){
+  spaceCtx.fillStyle="#070d19";spaceCtx.fillRect(0,0,360,420);
+  // stars
+  spaceCtx.fillStyle="#b7c9ff";for(let i=0;i<35;i++){let x=(i*71)%360,y=(i*113+Date.now()/70)%420;spaceCtx.fillRect(x,y,2,2)}
+  // ship
+  spaceCtx.fillStyle="#68f5c5";spaceCtx.beginPath();spaceCtx.moveTo(ship.x,ship.y-16);spaceCtx.lineTo(ship.x-13,ship.y+12);spaceCtx.lineTo(ship.x+13,ship.y+12);spaceCtx.closePath();spaceCtx.fill();
+  spaceCtx.fillStyle="#ffd166";bullets.forEach(b=>spaceCtx.fillRect(b.x-2,b.y-6,4,10));
+  enemies.forEach(en=>{spaceCtx.fillStyle="#ff729d";spaceCtx.beginPath();spaceCtx.arc(en.x,en.y,en.r,0,Math.PI*2);spaceCtx.fill();spaceCtx.fillStyle="#40172b";spaceCtx.fillRect(en.x-5,en.y-2,3,3);spaceCtx.fillRect(en.x+3,en.y-2,3,3)});
 }
 
-function startSnake() {
-  clearInterval(snakeTimer);
+/* ---------- Flappy Flyer ---------- */
+const flappyCanvas=document.getElementById("flappyCanvas"),flappyCtx=flappyCanvas.getContext("2d");
+let bird={x:75,y:200,vy:0},pipes=[],flappyScore=0,flappyRunning=false,flappyRAF=0,flappyFrame=0;
+function startFlappy(){cancelAnimationFrame(flappyRAF);bird={x:75,y:200,vy:0};pipes=[];flappyScore=0;flappyFrame=0;flappyRunning=true;document.getElementById("flappyScore").textContent=0;document.getElementById("flappyMessage").textContent="Tap or press Space to flap!";makePipe();flappyLoop()}
+function makePipe(){let gap=125,top=55+Math.random()*190;pipes.push({x:370,top,gap,scored:false})}
+function flap(){if(activeGame!=="flappy"||!flappyRunning)return;bird.vy=-5.8;beep(450,.04)}
+function flappyLoop(){
+  if(!flappyRunning)return;flappyFrame++;bird.vy+=.27;bird.y+=bird.vy;
+  if(flappyFrame%95===0)makePipe();
+  pipes.forEach(p=>{p.x-=2.2;if(!p.scored&&p.x+48<bird.x){p.scored=true;flappyScore++;document.getElementById("flappyScore").textContent=flappyScore;beep(760,.05)}});
+  pipes=pipes.filter(p=>p.x>-55);
+  const hitPipe=pipes.some(p=>bird.x+12>p.x&&bird.x-12<p.x+48&&(bird.y-10<p.top||bird.y+10>p.top+p.gap));
+  if(bird.y>410||bird.y<8||hitPipe){flappyRunning=false;document.getElementById("flappyMessage").textContent="Game over! Score: "+flappyScore+" — press Start to retry.";saveBest("flappy",flappyScore);beep(120,.2,"sawtooth");drawFlappy();return}
+  drawFlappy();flappyRAF=requestAnimationFrame(flappyLoop)
+}
+function drawFlappy(){
+  flappyCtx.fillStyle="#091326";flappyCtx.fillRect(0,0,360,420);
+  // simple sky dots
+  flappyCtx.fillStyle="#243e65";for(let i=0;i<22;i++)flappyCtx.fillRect((i*59)%360,(i*97)%420,2,2);
+  pipes.forEach(p=>{flappyCtx.fillStyle="#68f5c5";flappyCtx.fillRect(p.x,0,48,p.top);flappyCtx.fillRect(p.x,p.top+p.gap,48,420-p.top-p.gap);flappyCtx.fillStyle="#38bd94";flappyCtx.fillRect(p.x-4,p.top-10,56,10);flappyCtx.fillRect(p.x-4,p.top+p.gap,56,10)});
+  flappyCtx.fillStyle="#ffd166";flappyCtx.beginPath();flappyCtx.arc(bird.x,bird.y,11,0,Math.PI*2);flappyCtx.fill();flappyCtx.fillStyle="#07121d";flappyCtx.fillRect(bird.x+3,bird.y-4,3,3);
+}
+flappyCanvas.addEventListener("pointerdown",()=>{if(activeGame==="flappy")flap()});
 
-  snake = [{x: 10, y: 10}];
-  direction = "RIGHT";
-  nextDirection = "RIGHT";
-  score = 0;
-  snakeRunning = true;
-
-  document.getElementById("score").textContent = score;
-  document.getElementById("snakeMessage").textContent = "Good luck!";
-
-  placeFood();
-  drawSnake();
-
-  snakeTimer = setInterval(moveSnake, 130);
+/* ---------- Reaction Test ---------- */
+let reactionState="idle",reactionTimer=null,reactionStart=0;
+function resetReaction(){clearTimeout(reactionTimer);reactionState="idle";const b=document.getElementById("reactionButton");b.textContent="Start";b.classList.remove("ready");b.disabled=false;document.getElementById("reactionMessage").textContent="Ready?";}
+function reactionClick(){
+  const b=document.getElementById("reactionButton"),m=document.getElementById("reactionMessage");
+  if(reactionState==="idle"){reactionState="waiting";b.textContent="Wait for green...";b.classList.remove("ready");m.textContent="Don't click too early!";b.disabled=true;reactionTimer=setTimeout(()=>{reactionState="go";reactionStart=performance.now();b.disabled=false;b.textContent="CLICK NOW!";b.classList.add("ready");m.textContent="Now!";},1000+Math.random()*3000);return}
+  if(reactionState==="waiting"){clearTimeout(reactionTimer);reactionState="idle";b.disabled=false;b.textContent="Try again";m.textContent="Too soon! Click to start again.";beep(180,.1);return}
+  if(reactionState==="go"){let ms=Math.round(performance.now()-reactionStart);reactionState="idle";b.textContent="Play Again";b.classList.remove("ready");m.textContent="Your reaction: "+ms+" ms";saveBest("reaction",ms,true);beep(700,.07)}
 }
 
-function placeFood() {
-  food = {
-    x: Math.floor(Math.random() * 20),
-    y: Math.floor(Math.random() * 20)
-  };
+/* ---------- Number Guess ---------- */
+let guessSecret=1,guessCount=0,guessDone=false;
+function newGuess(){guessSecret=1+Math.floor(Math.random()*100);guessCount=0;guessDone=false;document.getElementById("guessInput").value="";document.getElementById("guessAttempts").textContent=0;document.getElementById("guessMessage").textContent="Find the secret number!";document.getElementById("guessInput").focus()}
+function checkGuess(){
+  if(guessDone)return;const val=Number(document.getElementById("guessInput").value),msg=document.getElementById("guessMessage");
+  if(!Number.isInteger(val)||val<1||val>100){msg.textContent="Enter a whole number from 1 to 100.";return}
+  guessCount++;document.getElementById("guessAttempts").textContent=guessCount;
+  if(val===guessSecret){guessDone=true;msg.textContent="Correct! You got it in "+guessCount+" tries! 🎉";saveBest("guess",guessCount,true);beep(780,.1)}
+  else{msg.textContent=val<guessSecret?"Too low — try again!":"Too high — try again!";beep(300,.04)}
 }
+document.getElementById("guessInput").addEventListener("keydown",e=>{if(e.key==="Enter")checkGuess()});
 
-function changeDirection(newDirection) {
-  const opposite = {
-    UP: "DOWN",
-    DOWN: "UP",
-    LEFT: "RIGHT",
-    RIGHT: "LEFT"
-  };
+/* ---------- Tic-Tac-Toe ---------- */
+let tttCells=Array(9).fill(""),tttDone=false;
+const wins=[[0,1,2],[3,4,5],[6,7,8],[0,3,6],[1,4,7],[2,5,8],[0,4,8],[2,4,6]];
+function newTtt(){tttCells=Array(9).fill("");tttDone=false;drawTtt();document.getElementById("tttMessage").textContent="Your turn!";}
+function drawTtt(){const board=document.getElementById("tttBoard");board.innerHTML="";tttCells.forEach((v,i)=>{const b=document.createElement("button");b.className="ttt-cell";b.textContent=v;b.disabled=!!v||tttDone;b.setAttribute("aria-label","Cell "+(i+1)+" "+(v||"empty"));b.onclick=()=>tttMove(i);board.appendChild(b)})}
+function winner(c){for(const [a,b,d] of wins)if(c[a]&&c[a]===c[b]&&c[a]===c[d])return c[a];return c.every(Boolean)?"draw":null}
+function tttMove(i){if(tttDone||tttCells[i])return;tttCells[i]="X";beep(500,.04);let w=winner(tttCells);if(w){finishTtt(w);return}drawTtt();document.getElementById("tttMessage").textContent="Computer thinking…";setTimeout(()=>{if(tttDone)return;const empty=tttCells.map((v,i)=>v?null:i).filter(v=>v!==null);if(!empty.length)return; // try win, block, center, then random
+  let move=pickWinningMove("O")??pickWinningMove("X")??(tttCells[4]===""?4:null)??empty[Math.floor(Math.random()*empty.length)];
+  tttCells[move]="O";beep(350,.04);w=winner(tttCells);if(w){finishTtt(w);return}drawTtt();document.getElementById("tttMessage").textContent="Your turn!";
+},280)}
+function pickWinningMove(mark){for(let i=0;i<9;i++){if(tttCells[i])continue;let copy=tttCells.slice();copy[i]=mark;if(winner(copy)===mark)return i}return null}
+function finishTtt(w){tttDone=true;drawTtt();const msg=w==="X"?"You win! 🎉":w==="O"?"Computer wins!":"It's a draw!";document.getElementById("tttMessage").textContent=msg;if(w==="X"){saveBest("ttt",(scores.ttt||0)+1);beep(800,.1)}else beep(180,.1)}
 
-  if (newDirection !== opposite[direction]) {
-    nextDirection = newDirection;
+/* ---------- Memory Match ---------- */
+const memorySymbols=["🍉","🚀","🎮","⭐","🐸","🍕","💎","🎧"];
+let memoryDeck=[],memoryOpen=[],memoryMatched=0,memoryMoves=0,memoryLock=false;
+function newMemory(){
+  memoryDeck=[...memorySymbols,...memorySymbols].sort(()=>Math.random()-.5);
+  memoryOpen=[];memoryMatched=0;memoryMoves=0;memoryLock=false;
+  document.getElementById("memoryMoves").textContent=0;document.getElementById("memoryMatches").textContent=0;document.getElementById("memoryMessage").textContent="Find all 8 pairs!";
+  drawMemory();
+}
+function drawMemory(){
+  const board=document.getElementById("memoryBoard");board.innerHTML="";
+  memoryDeck.forEach((symbol,i)=>{
+    const b=document.createElement("button");b.className="memory-card";
+    const isOpen=memoryOpen.includes(i),isMatched=memoryMatchedCards.has(i);
+    b.textContent=isOpen||isMatched?symbol:"?";
+    if(isOpen)b.classList.add("flipped");if(isMatched)b.classList.add("matched");
+    b.disabled=isOpen||isMatched||memoryLock;b.setAttribute("aria-label",isOpen||isMatched?symbol:"Hidden card");
+    b.onclick=()=>flipMemory(i);board.appendChild(b);
+  })
+}
+let memoryMatchedCards=new Set();
+function flipMemory(i){
+  if(memoryLock||memoryOpen.includes(i)||memoryMatchedCards.has(i))return;
+  memoryOpen.push(i);beep(420,.035);drawMemory();
+  if(memoryOpen.length===2){
+    memoryMoves++;document.getElementById("memoryMoves").textContent=memoryMoves;
+    const [a,b]=memoryOpen;
+    if(memoryDeck[a]===memoryDeck[b]){
+      memoryMatchedCards.add(a);memoryMatchedCards.add(b);memoryOpen=[];memoryMatched++;document.getElementById("memoryMatches").textContent=memoryMatched;beep(720,.07);
+      if(memoryMatched===8){document.getElementById("memoryMessage").textContent="All pairs matched in "+memoryMoves+" moves! 🎉";saveBest("memory",memoryMoves,true)}
+      drawMemory();
+    }else{
+      memoryLock=true;setTimeout(()=>{memoryOpen=[];memoryLock=false;drawMemory()},750)
+    }
   }
 }
+// Ensure each new game starts with an empty matched-card set.
+const originalNewMemory=newMemory;
+newMemory=function(){memoryMatchedCards=new Set();originalNewMemory()};
 
-document.addEventListener("keydown", function(event) {
-  const keys = {
-    ArrowUp: "UP",
-    ArrowDown: "DOWN",
-    ArrowLeft: "LEFT",
-    ArrowRight: "RIGHT"
-  };
-
-  if (keys[event.key]) {
-    event.preventDefault();
-    changeDirection(keys[event.key]);
-  }
+/* ---------- Keyboard shortcuts and init ---------- */
+document.addEventListener("keydown",e=>{
+  if(activeGame==="flappy"&&e.code==="Space"){e.preventDefault();flap()}
+  if(activeGame==="space"&&e.code==="Space"){e.preventDefault();fireSpace()}
 });
-
-function moveSnake() {
-  direction = nextDirection;
-
-  const head = {...snake[0]};
-
-  if (direction === "UP") head.y--;
-  if (direction === "DOWN") head.y++;
-  if (direction === "LEFT") head.x--;
-  if (direction === "RIGHT") head.x++;
-
-  // Wall collision
-  if (
-    head.x < 0 || head.x >= 20 ||
-    head.y < 0 || head.y >= 20
-  ) {
-    endSnake();
-    return;
-  }
-
-  const eating = head.x === food.x && head.y === food.y;
-
-  // Body collision
-  const body = eating ? snake : snake.slice(0, -1);
-
-  if (body.some(part => part.x === head.x && part.y === head.y)) {
-    endSnake();
-    return;
-  }
-
-  snake.unshift(head);
-
-  if (eating) {
-    score += 10;
-    document.getElementById("score").textContent = score;
-    placeFood();
-  } else {
-    snake.pop();
-  }
-
-  drawSnake();
-}
-
-function drawSnake() {
-  ctx.fillStyle = "#080e1b";
-  ctx.fillRect(0, 0, 300, 300);
-
-  // Food
-  ctx.fillStyle = "#ff647c";
-  ctx.fillRect(food.x * size, food.y * size, size - 2, size - 2);
-
-  // Snake
-  ctx.fillStyle = "#65f5c5";
-
-  snake.forEach(part => {
-    ctx.fillRect(
-      part.x * size,
-      part.y * size,
-      size - 2,
-      size - 2
-    );
-  });
-}
-
-function endSnake() {
-  clearInterval(snakeTimer);
-  snakeRunning = false;
-
-  document.getElementById("snakeMessage").textContent =
-    "Game over! Score: " + score + ". Press Start to try again.";
-
-  drawSnake();
-}
-
-// REACTION GAME
-let reactionWaiting = false;
-let reactionStart;
-let reactionTimer;
-
-function openReaction() {
-  showGame("reactionArea");
-  resetReaction();
-}
-
-function resetReaction() {
-  clearTimeout(reactionTimer);
-
-  reactionWaiting = false;
-
-  const button = document.getElementById("reactionButton");
-
-  button.textContent = "Start";
-  button.classList.remove("green");
-
-  document.getElementById("reactionMessage").textContent =
-    "Click Start to begin.";
-}
-
-function reactionClick() {
-  const button = document.getElementById("reactionButton");
-  const message = document.getElementById("reactionMessage");
-
-  if (reactionWaiting) {
-    clearTimeout(reactionTimer);
-
-    const result = Date.now() - reactionStart;
-
-    message.textContent = "Your reaction time: " + result + " ms";
-
-    button.textContent = "Play Again";
-    button.classList.remove("green");
-
-    reactionWaiting = false;
-    return;
-  }
-
-  button.disabled = true;
-  button.textContent = "Wait for green...";
-  message.textContent = "Don't click too early!";
-
-  reactionTimer = setTimeout(() => {
-    reactionStart = Date.now();
-    reactionWaiting = true;
-
-    button.textContent = "CLICK NOW!";
-    button.classList.add("green");
-    button.disabled = false;
-  }, 1500 + Math.random() * 2500);
-}
-
-// NUMBER GUESS
-let secretNumber = randomNumber();
-
-function randomNumber() {
-  return Math.floor(Math.random() * 20) + 1;
-}
-
-function openGuess() {
-  showGame("guessArea");
-}
-
-function checkGuess() {
-  const guess = Number(document.getElementById("guessInput").value);
-  const message = document.getElementById("guessMessage");
-
-  if (guess < 1 || guess > 20) {
-    message.textContent = "Enter a number from 1 to 20.";
-  } else if (guess === secretNumber) {
-    message.textContent = "Correct! You won! 🎉";
-  } else if (guess < secretNumber) {
-    message.textContent = "Too low! Try again.";
-  } else {
-    message.textContent = "Too high! Try again.";
-  }
-}
-
-function newNumber() {
-  secretNumber = randomNumber();
-
-  document.getElementById("guessInput").value = "";
-  document.getElementById("guessMessage").textContent =
-    "New number! Guess again.";
-}
-
 </script>
-
 </body>
 </html>
