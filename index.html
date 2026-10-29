@@ -1,0 +1,191 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Vaibhav Arcade</title>
+
+  <style>
+    body {
+      margin: 0;
+      font-family: Arial, sans-serif;
+      background: #101426;
+      color: white;
+      text-align: center;
+    }
+
+    header {
+      padding: 30px 15px;
+      background: #1d2540;
+    }
+
+    h1 {
+      color: #70f0d0;
+      margin-bottom: 8px;
+    }
+
+    .games {
+      display: flex;
+      flex-wrap: wrap;
+      justify-content: center;
+      gap: 20px;
+      padding: 25px;
+    }
+
+    .card {
+      background: #202b48;
+      border-radius: 15px;
+      padding: 20px;
+      width: 280px;
+    }
+
+    button {
+      background: #70f0d0;
+      color: #101426;
+      border: none;
+      padding: 12px 20px;
+      border-radius: 8px;
+      font-size: 16px;
+      font-weight: bold;
+      cursor: pointer;
+      margin: 8px;
+    }
+
+    #reaction {
+      background: #e0a84b;
+    }
+
+    #reaction.ready {
+      background: #46d979;
+    }
+
+    input {
+      padding: 10px;
+      width: 70px;
+      font-size: 16px;
+    }
+
+    footer {
+      color: #aab4d0;
+      padding: 20px;
+    }
+  </style>
+</head>
+
+<body>
+
+  <header>
+    <h1>🎮 Vaibhav Arcade</h1>
+    <p>Small games. Big fun. Play for free!</p>
+  </header>
+
+  <main class="games">
+
+    <section class="card">
+      <h2>⚡ Reaction Game</h2>
+      <p>Click when the button turns green!</p>
+
+      <button id="reaction" onclick="reactionClick()">
+        Start Game
+      </button>
+
+      <p id="reactionMessage">
+        Test your reaction speed.
+      </p>
+    </section>
+
+    <section class="card">
+      <h2>🔢 Number Guess</h2>
+      <p>Guess a number between 1 and 20.</p>
+
+      <input id="guess" type="number" min="1" max="20">
+
+      <button onclick="checkGuess()">Guess</button>
+
+      <p id="guessMessage">Can you find the number?</p>
+
+      <button onclick="newNumber()">New Game</button>
+    </section>
+
+  </main>
+
+  <footer>
+    Made by a beginner developer | Vaibhav Arcade
+  </footer>
+
+  <script>
+    // Reaction game
+    let startTime;
+    let timer;
+    let waiting = false;
+
+    const reactionButton = document.getElementById("reaction");
+    const reactionMessage =
+      document.getElementById("reactionMessage");
+
+    function reactionClick() {
+      if (waiting) {
+        clearTimeout(timer);
+
+        const result = Date.now() - startTime;
+
+        reactionMessage.textContent =
+          "Your reaction time: " + result + " ms";
+
+        reactionButton.textContent = "Play Again";
+        reactionButton.classList.remove("ready");
+        waiting = false;
+        return;
+      }
+
+      reactionButton.textContent = "Wait for green...";
+      reactionButton.classList.remove("ready");
+      reactionMessage.textContent = "Get ready!";
+      reactionButton.disabled = true;
+
+      const delay = 1500 + Math.random() * 2500;
+
+      timer = setTimeout(() => {
+        startTime = Date.now();
+        waiting = true;
+
+        reactionButton.textContent = "CLICK NOW!";
+        reactionButton.classList.add("ready");
+        reactionButton.disabled = false;
+
+      }, delay);
+    }
+
+    // Number guessing game
+    let secretNumber = Math.floor(Math.random() * 20) + 1;
+
+    function checkGuess() {
+      const guess = Number(
+        document.getElementById("guess").value
+      );
+
+      const message = document.getElementById("guessMessage");
+
+      if (guess < 1 || guess > 20) {
+        message.textContent = "Enter a number from 1 to 20.";
+      } else if (guess === secretNumber) {
+        message.textContent = "Correct! You won! 🎉";
+      } else if (guess < secretNumber) {
+        message.textContent = "Too low! Try again.";
+      } else {
+        message.textContent = "Too high! Try again.";
+      }
+    }
+
+    function newNumber() {
+      secretNumber = Math.floor(Math.random() * 20) + 1;
+
+      document.getElementById("guess").value = "";
+      document.getElementById("guessMessage").textContent =
+        "New number generated. Try again!";
+    }
+  </script>
+
+</body>
+</html>
