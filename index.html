@@ -2,190 +2,571 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Vaibhav Arcade</title>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-  <style>
-    body {
-      margin: 0;
-      font-family: Arial, sans-serif;
-      background: #101426;
-      color: white;
-      text-align: center;
-    }
+<title>Vaibhav Arcade | Free Online Games</title>
 
-    header {
-      padding: 30px 15px;
-      background: #1d2540;
-    }
+<style>
+* {
+  box-sizing: border-box;
+}
 
-    h1 {
-      color: #70f0d0;
-      margin-bottom: 8px;
-    }
+body {
+  margin: 0;
+  font-family: Arial, sans-serif;
+  background: #0b1020;
+  color: #f5f7ff;
+}
 
-    .games {
-      display: flex;
-      flex-wrap: wrap;
-      justify-content: center;
-      gap: 20px;
-      padding: 25px;
-    }
+header {
+  padding: 20px 8%;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  background: #111a30;
+  border-bottom: 1px solid #263450;
+}
 
-    .card {
-      background: #202b48;
-      border-radius: 15px;
-      padding: 20px;
-      width: 280px;
-    }
+.logo {
+  color: #65f5c5;
+  font-size: 22px;
+  font-weight: bold;
+}
 
-    button {
-      background: #70f0d0;
-      color: #101426;
-      border: none;
-      padding: 12px 20px;
-      border-radius: 8px;
-      font-size: 16px;
-      font-weight: bold;
-      cursor: pointer;
-      margin: 8px;
-    }
+nav a {
+  color: #d5ddf5;
+  text-decoration: none;
+  margin-left: 18px;
+}
 
-    #reaction {
-      background: #e0a84b;
-    }
+.hero {
+  padding: 65px 20px;
+  text-align: center;
+  background:
+    radial-gradient(circle at top, #233d70, #0b1020 70%);
+}
 
-    #reaction.ready {
-      background: #46d979;
-    }
+.hero h1 {
+  font-size: 42px;
+  margin: 0 0 15px;
+}
 
-    input {
-      padding: 10px;
-      width: 70px;
-      font-size: 16px;
-    }
+.hero h1 span {
+  color: #65f5c5;
+}
 
-    footer {
-      color: #aab4d0;
-      padding: 20px;
-    }
-  </style>
+.hero p {
+  color: #b8c4df;
+  font-size: 17px;
+}
+
+.badge {
+  display: inline-block;
+  padding: 8px 14px;
+  background: #1d3049;
+  color: #65f5c5;
+  border-radius: 30px;
+  font-size: 13px;
+  margin-bottom: 15px;
+}
+
+.container {
+  max-width: 1000px;
+  margin: auto;
+  padding: 30px 20px;
+}
+
+.section-title {
+  font-size: 25px;
+  margin-bottom: 20px;
+}
+
+.games {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+  gap: 20px;
+}
+
+.card {
+  background: #141e35;
+  border: 1px solid #263653;
+  border-radius: 16px;
+  padding: 22px;
+}
+
+.game-icon {
+  font-size: 42px;
+}
+
+.card h3 {
+  margin-bottom: 8px;
+}
+
+.card p {
+  color: #aab8d4;
+  line-height: 1.5;
+}
+
+button {
+  background: #65f5c5;
+  color: #071321;
+  border: 0;
+  border-radius: 9px;
+  padding: 12px 18px;
+  font-size: 15px;
+  font-weight: bold;
+  cursor: pointer;
+  margin: 5px;
+}
+
+button:hover {
+  filter: brightness(1.1);
+}
+
+.game-area {
+  display: none;
+  text-align: center;
+  margin-top: 30px;
+  background: #141e35;
+  border: 1px solid #263653;
+  border-radius: 16px;
+  padding: 20px;
+}
+
+canvas {
+  display: block;
+  margin: 15px auto;
+  background: #080e1b;
+  border: 2px solid #334765;
+  border-radius: 8px;
+  max-width: 100%;
+}
+
+#reactionButton {
+  background: #e9a23b;
+  min-width: 180px;
+}
+
+#reactionButton.green {
+  background: #65f5c5;
+}
+
+#message {
+  color: #65f5c5;
+  font-weight: bold;
+}
+
+.controls {
+  margin-top: 10px;
+}
+
+footer {
+  text-align: center;
+  padding: 30px;
+  color: #8593b0;
+  border-top: 1px solid #263450;
+}
+
+@media (max-width: 600px) {
+  .hero h1 {
+    font-size: 32px;
+  }
+
+  header {
+    padding: 16px;
+  }
+
+  nav a {
+    margin-left: 8px;
+    font-size: 13px;
+  }
+}
+</style>
 </head>
 
 <body>
 
-  <header>
-    <h1>🎮 Vaibhav Arcade</h1>
-    <p>Small games. Big fun. Play for free!</p>
-  </header>
+<header>
+  <div class="logo">🎮 Vaibhav Arcade</div>
 
-  <main class="games">
+  <nav>
+    <a href="#games">Games</a>
+    <a href="#about">About</a>
+  </nav>
+</header>
 
-    <section class="card">
-      <h2>⚡ Reaction Game</h2>
-      <p>Click when the button turns green!</p>
+<section class="hero">
+  <div class="badge">FREE BROWSER GAMES</div>
 
-      <button id="reaction" onclick="reactionClick()">
-        Start Game
-      </button>
+  <h1>Play. Have fun.<br>
+    <span>Repeat.</span>
+  </h1>
 
-      <p id="reactionMessage">
-        Test your reaction speed.
-      </p>
-    </section>
+  <p>Welcome to your little corner of the gaming world.</p>
 
-    <section class="card">
-      <h2>🔢 Number Guess</h2>
-      <p>Guess a number between 1 and 20.</p>
+  <a href="#games">
+    <button>Explore Games ↓</button>
+  </a>
+</section>
 
-      <input id="guess" type="number" min="1" max="20">
+<main class="container" id="games">
 
-      <button onclick="checkGuess()">Guess</button>
+  <h2 class="section-title">🎯 Choose Your Game</h2>
 
-      <p id="guessMessage">Can you find the number?</p>
+  <div class="games">
 
-      <button onclick="newNumber()">New Game</button>
-    </section>
+    <div class="card">
+      <div class="game-icon">🐍</div>
+      <h3>Snake Game</h3>
+      <p>Eat the food, grow your snake and beat your high score.</p>
+      <button onclick="openSnake()">Play Snake</button>
+    </div>
 
-  </main>
+    <div class="card">
+      <div class="game-icon">⚡</div>
+      <h3>Reaction Test</h3>
+      <p>Test your reaction speed. How fast can you click?</p>
+      <button onclick="openReaction()">Play Reaction</button>
+    </div>
 
-  <footer>
-    Made by a beginner developer | Vaibhav Arcade
-  </footer>
+    <div class="card">
+      <div class="game-icon">🔢</div>
+      <h3>Number Guess</h3>
+      <p>Guess the secret number between 1 and 20.</p>
+      <button onclick="openGuess()">Play Guess</button>
+    </div>
 
-  <script>
-    // Reaction game
-    let startTime;
-    let timer;
-    let waiting = false;
+  </div>
 
-    const reactionButton = document.getElementById("reaction");
-    const reactionMessage =
-      document.getElementById("reactionMessage");
+  <!-- SNAKE GAME -->
+  <section class="game-area" id="snakeArea">
 
-    function reactionClick() {
-      if (waiting) {
-        clearTimeout(timer);
+    <h2>🐍 Snake Game</h2>
+    <p>Use arrow keys or buttons to move.</p>
 
-        const result = Date.now() - startTime;
+    <p>Score: <span id="score">0</span></p>
 
-        reactionMessage.textContent =
-          "Your reaction time: " + result + " ms";
+    <canvas id="snakeCanvas" width="300" height="300"></canvas>
 
-        reactionButton.textContent = "Play Again";
-        reactionButton.classList.remove("ready");
-        waiting = false;
-        return;
-      }
+    <button onclick="startSnake()">Start / Restart</button>
 
-      reactionButton.textContent = "Wait for green...";
-      reactionButton.classList.remove("ready");
-      reactionMessage.textContent = "Get ready!";
-      reactionButton.disabled = true;
+    <div class="controls">
+      <div>
+        <button onclick="changeDirection('UP')">⬆️</button>
+      </div>
+      <div>
+        <button onclick="changeDirection('LEFT')">⬅️</button>
+        <button onclick="changeDirection('DOWN')">⬇️</button>
+        <button onclick="changeDirection('RIGHT')">➡️</button>
+      </div>
+    </div>
 
-      const delay = 1500 + Math.random() * 2500;
+    <p id="snakeMessage">Press Start to play.</p>
 
-      timer = setTimeout(() => {
-        startTime = Date.now();
-        waiting = true;
+  </section>
 
-        reactionButton.textContent = "CLICK NOW!";
-        reactionButton.classList.add("ready");
-        reactionButton.disabled = false;
+  <!-- REACTION GAME -->
+  <section class="game-area" id="reactionArea">
 
-      }, delay);
-    }
+    <h2>⚡ Reaction Test</h2>
 
-    // Number guessing game
-    let secretNumber = Math.floor(Math.random() * 20) + 1;
+    <p>Click the button and wait for it to turn green.</p>
 
-    function checkGuess() {
-      const guess = Number(
-        document.getElementById("guess").value
-      );
+    <button id="reactionButton" onclick="reactionClick()">
+      Start
+    </button>
 
-      const message = document.getElementById("guessMessage");
+    <p id="reactionMessage">Ready?</p>
 
-      if (guess < 1 || guess > 20) {
-        message.textContent = "Enter a number from 1 to 20.";
-      } else if (guess === secretNumber) {
-        message.textContent = "Correct! You won! 🎉";
-      } else if (guess < secretNumber) {
-        message.textContent = "Too low! Try again.";
-      } else {
-        message.textContent = "Too high! Try again.";
-      }
-    }
+  </section>
 
-    function newNumber() {
-      secretNumber = Math.floor(Math.random() * 20) + 1;
+  <!-- NUMBER GUESS -->
+  <section class="game-area" id="guessArea">
 
-      document.getElementById("guess").value = "";
-      document.getElementById("guessMessage").textContent =
-        "New number generated. Try again!";
-    }
-  </script>
+    <h2>🔢 Number Guess</h2>
+
+    <p>Guess a number from 1 to 20.</p>
+
+    <input id="guessInput" type="number"
+      min="1" max="20"
+      style="padding:10px;width:100px">
+
+    <button onclick="checkGuess()">Guess</button>
+
+    <p id="guessMessage">Let's play!</p>
+
+    <button onclick="newNumber()">New Game</button>
+
+  </section>
+
+</main>
+
+<section class="container" id="about">
+  <div class="card">
+    <h2>About Vaibhav Arcade</h2>
+    <p>
+      Vaibhav Arcade is a small gaming website made for
+      people who enjoy quick and fun browser games.
+      More games coming soon!
+    </p>
+  </div>
+</section>
+
+<footer>
+  Made with ❤️ by Vaibhav | Vaibhav Arcade
+</footer>
+
+<script>
+
+// Show selected game
+function showGame(id) {
+  document.querySelectorAll(".game-area").forEach(area => {
+    area.style.display = "none";
+  });
+
+  document.getElementById(id).style.display = "block";
+
+  document.getElementById(id).scrollIntoView({
+    behavior: "smooth"
+  });
+}
+
+// SNAKE GAME
+const canvas = document.getElementById("snakeCanvas");
+const ctx = canvas.getContext("2d");
+
+const size = 15;
+
+let snake;
+let food;
+let direction;
+let nextDirection;
+let score;
+let snakeTimer;
+let snakeRunning = false;
+
+function openSnake() {
+  showGame("snakeArea");
+  startSnake();
+}
+
+function startSnake() {
+  clearInterval(snakeTimer);
+
+  snake = [{x: 10, y: 10}];
+  direction = "RIGHT";
+  nextDirection = "RIGHT";
+  score = 0;
+  snakeRunning = true;
+
+  document.getElementById("score").textContent = score;
+  document.getElementById("snakeMessage").textContent = "Good luck!";
+
+  placeFood();
+  drawSnake();
+
+  snakeTimer = setInterval(moveSnake, 130);
+}
+
+function placeFood() {
+  food = {
+    x: Math.floor(Math.random() * 20),
+    y: Math.floor(Math.random() * 20)
+  };
+}
+
+function changeDirection(newDirection) {
+  const opposite = {
+    UP: "DOWN",
+    DOWN: "UP",
+    LEFT: "RIGHT",
+    RIGHT: "LEFT"
+  };
+
+  if (newDirection !== opposite[direction]) {
+    nextDirection = newDirection;
+  }
+}
+
+document.addEventListener("keydown", function(event) {
+  const keys = {
+    ArrowUp: "UP",
+    ArrowDown: "DOWN",
+    ArrowLeft: "LEFT",
+    ArrowRight: "RIGHT"
+  };
+
+  if (keys[event.key]) {
+    event.preventDefault();
+    changeDirection(keys[event.key]);
+  }
+});
+
+function moveSnake() {
+  direction = nextDirection;
+
+  const head = {...snake[0]};
+
+  if (direction === "UP") head.y--;
+  if (direction === "DOWN") head.y++;
+  if (direction === "LEFT") head.x--;
+  if (direction === "RIGHT") head.x++;
+
+  // Wall collision
+  if (
+    head.x < 0 || head.x >= 20 ||
+    head.y < 0 || head.y >= 20
+  ) {
+    endSnake();
+    return;
+  }
+
+  const eating = head.x === food.x && head.y === food.y;
+
+  // Body collision
+  const body = eating ? snake : snake.slice(0, -1);
+
+  if (body.some(part => part.x === head.x && part.y === head.y)) {
+    endSnake();
+    return;
+  }
+
+  snake.unshift(head);
+
+  if (eating) {
+    score += 10;
+    document.getElementById("score").textContent = score;
+    placeFood();
+  } else {
+    snake.pop();
+  }
+
+  drawSnake();
+}
+
+function drawSnake() {
+  ctx.fillStyle = "#080e1b";
+  ctx.fillRect(0, 0, 300, 300);
+
+  // Food
+  ctx.fillStyle = "#ff647c";
+  ctx.fillRect(food.x * size, food.y * size, size - 2, size - 2);
+
+  // Snake
+  ctx.fillStyle = "#65f5c5";
+
+  snake.forEach(part => {
+    ctx.fillRect(
+      part.x * size,
+      part.y * size,
+      size - 2,
+      size - 2
+    );
+  });
+}
+
+function endSnake() {
+  clearInterval(snakeTimer);
+  snakeRunning = false;
+
+  document.getElementById("snakeMessage").textContent =
+    "Game over! Score: " + score + ". Press Start to try again.";
+
+  drawSnake();
+}
+
+// REACTION GAME
+let reactionWaiting = false;
+let reactionStart;
+let reactionTimer;
+
+function openReaction() {
+  showGame("reactionArea");
+  resetReaction();
+}
+
+function resetReaction() {
+  clearTimeout(reactionTimer);
+
+  reactionWaiting = false;
+
+  const button = document.getElementById("reactionButton");
+
+  button.textContent = "Start";
+  button.classList.remove("green");
+
+  document.getElementById("reactionMessage").textContent =
+    "Click Start to begin.";
+}
+
+function reactionClick() {
+  const button = document.getElementById("reactionButton");
+  const message = document.getElementById("reactionMessage");
+
+  if (reactionWaiting) {
+    clearTimeout(reactionTimer);
+
+    const result = Date.now() - reactionStart;
+
+    message.textContent = "Your reaction time: " + result + " ms";
+
+    button.textContent = "Play Again";
+    button.classList.remove("green");
+
+    reactionWaiting = false;
+    return;
+  }
+
+  button.disabled = true;
+  button.textContent = "Wait for green...";
+  message.textContent = "Don't click too early!";
+
+  reactionTimer = setTimeout(() => {
+    reactionStart = Date.now();
+    reactionWaiting = true;
+
+    button.textContent = "CLICK NOW!";
+    button.classList.add("green");
+    button.disabled = false;
+  }, 1500 + Math.random() * 2500);
+}
+
+// NUMBER GUESS
+let secretNumber = randomNumber();
+
+function randomNumber() {
+  return Math.floor(Math.random() * 20) + 1;
+}
+
+function openGuess() {
+  showGame("guessArea");
+}
+
+function checkGuess() {
+  const guess = Number(document.getElementById("guessInput").value);
+  const message = document.getElementById("guessMessage");
+
+  if (guess < 1 || guess > 20) {
+    message.textContent = "Enter a number from 1 to 20.";
+  } else if (guess === secretNumber) {
+    message.textContent = "Correct! You won! 🎉";
+  } else if (guess < secretNumber) {
+    message.textContent = "Too low! Try again.";
+  } else {
+    message.textContent = "Too high! Try again.";
+  }
+}
+
+function newNumber() {
+  secretNumber = randomNumber();
+
+  document.getElementById("guessInput").value = "";
+  document.getElementById("guessMessage").textContent =
+    "New number! Guess again.";
+}
+
+</script>
 
 </body>
 </html>
